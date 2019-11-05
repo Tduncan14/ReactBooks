@@ -10,6 +10,9 @@ class Display extends Component{
 
 
     render () {
+
+        console.log(this.props.data);
+        
         let keys = Object.keys(this.props.data);
 
         if(keys.length === 0){
@@ -21,7 +24,13 @@ class Display extends Component{
          else{
              return <div className="container-fluid bg-secondary p-2">
                  {
-                     keys.map(key => <div key={key} className="row h5 text-white">{this.formatValue(this.props.data[key])} </div>)
+                     keys.map(key => <div key={key} className="row h5 text-white">
+                         <div className="col">{key} </div>
+                         <div className="col">
+                     {this.formatValue(this.props.data[key])} 
+                     </div>
+                     
+                     </div>)
                  }
              </div>
 
