@@ -13,8 +13,8 @@ class Editor extends Component{
         this.state={
            name:"Bob",
            flavor:"Vanilla",
-           toppings:["Strawberries"],
-           isdoubleScoop:false
+           toppings:["Strawberries"]
+        //    isdoubleScoop:false
         }
 
         this.flavors = ["Chocolate","Double Chocolate","Triple Chocolate","Vanilla"];
@@ -44,8 +44,21 @@ class Editor extends Component{
 
 
     updateFormCheck = (event) => {
+        event.persist();
 
-        this.setState({[event.target.name]:!event.target.checked},() => this.props.submitData(this.state))
+        this.setState(state => {
+
+            if(event.target.checked){
+                
+                state.toppings.push(event.target.name)
+            }
+            else{
+
+                let index = state.toppings.indexOf(event.target.name)
+                state.toppings.splice(index, 1);
+            }
+
+        },() => this.props.submitData(this.state))
     }
 
     render(){
@@ -89,16 +102,20 @@ class Editor extends Component{
                   </select>
              </div>
 
-             <div className="form-group">
+{
+         this.toppings.map( top  => (<div className="form-group" key={top}>
                  <div className ="form-check">
                      <input className="form-check-input"
                        type="checkbox"
-                       name="isdoubleScoop"
+                       name={top}
+                       value={this.state[top]}
+                       checked={this.state.toppings.indexOf(top) > -1}
                        onChange ={this.updateFormCheck} />
 
-                       <label className="form-check-label">Two scoops</label>
+                       <label className="form-check-label">{top}</label>
                  </div>
-             </div>
+         </div>))
+    }
         </div>
     }
 }
